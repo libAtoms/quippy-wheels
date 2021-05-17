@@ -30,7 +30,8 @@ function pre_build {
     # Could utilize a site.cfg instead to prevent the copy.
     $PYTHON_EXE -mpip install urllib3
     $PYTHON_EXE -c"import platform; print('platform.uname().machine', platform.uname().machine)"
-    basedir=$($PYTHON_EXE numpy/tools/openblas_support.py)
+    curl https://raw.githubusercontent.com/numpy/numpy/623bc1fae1d47df24e7f1e29321d0c0ba2771ce0/tools/openblas_support.py -o openblas_support.py
+    basedir=$($PYTHON_EXE openblas_support.py)
     $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
     $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
     export OPENBLAS=$BUILD_PREFIX
