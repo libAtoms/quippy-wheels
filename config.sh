@@ -18,10 +18,7 @@ function build_wheel {
     wrap_wheel_builder _build_wheel $@
 }
 
-function pre_build {
-    # Any stuff that you need to do before you start building the wheels
-    # Runs in the root directory of this repository
-
+function build_libs {
     # setuptools v49.2.0 is broken
     $PYTHON_EXE -mpip install --upgrade "setuptools<49.2.0"
     # Use the same incantation as numpy/tools/travis-before-install.sh to
@@ -31,11 +28,15 @@ function pre_build {
     $PYTHON_EXE -mpip install urllib3
     $PYTHON_EXE -c"import platform; print('platform.uname().machine', platform.uname().machine)"
     curl https://raw.githubusercontent.com/numpy/numpy/623bc1fae1d47df24e7f1e29321d0c0ba2771ce0/tools/openblas_support.py -o openblas_support.py
-    basedir=$($PYTHON_EXE openblas_support.py)
+    basedir=$($PYTHON_EXE numpy/tools/openblas_support.py)
     $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
     $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
     export OPENBLAS=$BUILD_PREFIX
+}
 
+function pre_build {
+    # Any stuff that you need to do before you start building the wheels
+    # Runs in the root directory of this repository
     export QUIP_ARCH=linux_x86_64_gfortran
     cd ${REPO_DIR}
     mkdir -p build/${QUIP_ARCH}
