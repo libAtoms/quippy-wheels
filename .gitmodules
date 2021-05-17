@@ -4,3 +4,6 @@
 [submodule "QUIP"]
 	path = QUIP
 	url = https://github.com/libAtoms/QUIP
+[submodule "gfortran-install"]
+	path = gfortran-install
+	url = https://github.com/MacPython/gfortran-install
