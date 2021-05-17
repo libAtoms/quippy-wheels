@@ -1,0 +1,6 @@
+[submodule "multibuild"]
+	path = multibuild
+	url = https://github.com/matthew-brett/multibuild.git
+[submodule "QUIP"]
+	path = QUIP
+	url = https://github.com/libAtoms/QUIP
