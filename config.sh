@@ -4,6 +4,7 @@
 function pre_build {
     # Any stuff that you need to do before you start building the wheels
     # Runs in the root directory of this repository.
+    export QUIP_ARCH=linux_x86_64_gfortran
     cd ${REPO_DIR}
     mkdir -p build/${QUIP_ARCH}
     cp travis/Makefile.inc build/${QUIP_ARCH}/Makefile.inc
