@@ -40,7 +40,7 @@ function pre_build {
     export QUIP_ARCH=linux_x86_64_gfortran
     cd ${REPO_DIR}
     mkdir -p build/${QUIP_ARCH}
-    cp Makefile.inc build/${QUIP_ARCH}/Makefile.inc
+    cp ../Makefile.inc build/${QUIP_ARCH}/Makefile.inc
     make quippy
 }
 
