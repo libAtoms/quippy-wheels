@@ -9,14 +9,13 @@ function pre_build {
 
     # setup architecture-specific build environment
     [[ -d ${REPO_DIR}/build/${QUIP_ARCH} ]] || mkdir -p ${REPO_DIR}/build/${QUIP_ARCH}
-    cp ${REPO_DIR}/quippy/setup.py ${REPO_DIR}/build/${QUIP_ARCH}
     cp Makefile.inc ${REPO_DIR}/build/${QUIP_ARCH}
 
     cd ${REPO_DIR}
     make quippy
 
-    # change into build directory before we run `pip wheel`
-    cd build/${QUIP_ARCH}
+    # get ready to run `pip wheel` in build directory
+    cp ${REPO_DIR}/quippy/setup.py ${REPO_DIR}/build/${QUIP_ARCH}
 }
 
 function run_tests {
