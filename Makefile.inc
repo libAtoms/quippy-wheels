@@ -14,7 +14,7 @@
 # DEBUG=-O0 -g -DDUMP_CORE_ON_ABORT -DDEBUG -fbounds-check
 # DEBUG=
 # CDEBUG=
-MATH_LINKOPTS=-L${OPENBLAS} -llapack -lblas
+MATH_LINKOPTS=-L/usr/local/lib -lopenblas
 EXTRA_LINKOPTS=
 HAVE_CP2K=0
 HAVE_VASP=0
