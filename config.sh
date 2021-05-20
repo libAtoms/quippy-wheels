@@ -3,12 +3,6 @@
 
 source gfortran-install/gfortran_utils.sh
 
-if [ -n "$IS_MACOS" ]; then
-    export QUIP_ARCH=darwin_${PLAT}_gfortran
-else
-    export QUIP_ARCH=linux_${PLAT}_gfortran
-fi
-
 function pre_build {
     # fetch and install OpenBLAS in same way as its done for numpy
     build_openblas
