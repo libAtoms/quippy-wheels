@@ -3,18 +3,26 @@
 
 source gfortran-install/gfortran_utils.sh
 
-function build_libs {
-    build_openblas
-}
+if [ -n "$IS_MACOS" ]; then
+    export QUIP_ARCH=darwin_${PLAT}_gfortran
+else
+    export QUIP_ARCH=linux_${PLAT}_gfortran
+fi
 
 function pre_build {
-    # Any stuff that you need to do before you start building the wheels
-    # Runs in the root directory of this repository
-    export QUIP_ARCH=linux_x86_64_gfortran
+    # fetch and install OpenBLAS in same way as its done for numpy
+    build_openblas
+
+    # setup architecture-specific build environment
+    [[ -d ${REPO_DIR}/build/${QUIP_ARCH} ]] || mkdir -p ${REPO_DIR}/build/${QUIP_ARCH}
+    cp ${REPO_DIR}/quippy/setup.py ${REPO_DIR}/build/${QUIP_ARCH}
+    cp Makefile.inc ${REPO_DIR}/build/${QUIP_ARCH}
+
     cd ${REPO_DIR}
-    mkdir -p build/${QUIP_ARCH}
-    cp ../Makefile.inc build/${QUIP_ARCH}/Makefile.inc
     make quippy
+
+    # change into build directory before we run `pip wheel`
+    cd build/${QUIP_ARCH}
 }
 
 function run_tests {
