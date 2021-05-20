@@ -11,8 +11,7 @@ function pre_build {
     [[ -d ${REPO_DIR}/build/${QUIP_ARCH} ]] || mkdir -p ${REPO_DIR}/build/${QUIP_ARCH}
     cp Makefile.inc ${REPO_DIR}/build/${QUIP_ARCH}
 
-    cd ${REPO_DIR}
-    make quippy
+    (cd ${REPO_DIR} && make quippy)
 
     # get ready to run `pip wheel` in build directory
     cp ${REPO_DIR}/quippy/setup.py ${REPO_DIR}/build/${QUIP_ARCH}
