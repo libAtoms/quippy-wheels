@@ -14,17 +14,17 @@ function pre_build {
     build_openblas
 
     # setup architecture-specific build environment
-    [[ -d ${REPO_DIR}/build/${QUIP_ARCH} ]] || mkdir -p ${REPO_DIR}/build/${QUIP_ARCH}
-    cp Makefile.inc ${REPO_DIR}/build/${QUIP_ARCH}
+    [[ -d ${REPO_DIR} ]] || mkdir -p ${REPO_DIR}
+    cp Makefile.inc ${REPO_DIR}
 
-    (cd ${REPO_DIR} && make quippy)
+    (cd ${REPO_DIR}/../.. && make quippy)
 
     # get ready to run `pip wheel` in build directory
-    cp ${REPO_DIR}/quippy/setup.py ${REPO_DIR}/build/${QUIP_ARCH}
+    cp ${REPO_DIR}/../../quippy/setup.py ${REPO_DIR}
 }
 
 function run_tests {
     # Runs tests on installed distribution from an empty directory
-    cd ${REPO_DIR}/tests
+    cd ${REPO_DIR}/../../tests
     python3 run_all.py -v
 }

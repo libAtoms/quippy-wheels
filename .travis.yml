@@ -7,6 +7,7 @@ env:
         # pip dependencies to _test_ your project.  Include any dependencies
         # that you need, that are also specified in BUILD_DEPENDS, this will be
         # a separate install.
+        - TEST_DEPENDS=numpy
         # Now see the Uploads section for the stuff you need to
         # upload your wheels after CI has built them.
 
