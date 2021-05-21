@@ -1,6 +1,8 @@
 # Define custom utilities
 # Test for macOS with [ -n "$IS_MACOS" ]
 
+export QUIP_ARCH=linux_${PLAT}_gfortran
+
 source gfortran-install/gfortran_utils.sh
 
 function pre_build {
