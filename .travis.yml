@@ -2,7 +2,7 @@ env:
     global:
         - REPO_DIR=QUIP
         # Commit from your-project that you want to build
-        - BUILD_COMMIT=19577023d4
+        - BUILD_COMMIT=e07c62af247
         # pip dependencies to _build_ your project
         # pip dependencies to _test_ your project.  Include any dependencies
         # that you need, that are also specified in BUILD_DEPENDS, this will be

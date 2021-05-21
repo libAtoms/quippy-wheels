@@ -1,7 +1,11 @@
 # Define custom utilities
 # Test for macOS with [ -n "$IS_MACOS" ]
 
-export QUIP_ARCH=linux_${PLAT}_gfortran
+if [ -n "$IS_MACOS" ]; then
+    export QUIP_ARCH=darwin_${PLAT}_gfortran
+else
+    export QUIP_ARCH=linux_${PLAT}_gfortran
+fi
 
 source gfortran-install/gfortran_utils.sh
 

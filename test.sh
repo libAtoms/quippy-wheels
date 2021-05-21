@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export REPO_DIR=QUIP
-export BUILD_COMMIT=19577023d4
+export BUILD_COMMIT=e07c62af247
 export PLAT=x86_64
 export MB_PYTHON_VERSION=3.6
 
