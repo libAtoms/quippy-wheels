@@ -1,11 +1,13 @@
 #!/bin/bash
 
 export REPO_DIR=QUIP
-export BUILD_COMMIT=e07c62af247
 export PLAT=x86_64
 export MB_PYTHON_VERSION=3.6
 
-export QUIP_ARCH=linux_${PLAT}_gfortran
+export QUIP_ARCH=linux_x86_64_gfortran
+
+export BUILD_DEPENDS=oldest-supported-numpy
+export TEST_DEPENDS=numpy
 
 (cd QUIP && make distclean)
 rm -f openblas-stamp
@@ -13,6 +15,5 @@ rm -f openblas-stamp
 source multibuild/common_utils.sh
 source multibuild/travis_linux_steps.sh
 before_install
-# clean_code $REPO_DIR $BUILD_COMMIT
-build_wheel $REPO_DIR $PLAT
+build_wheel $REPO_DIR/build/${QUIP_ARCH} $PLAT
 install_run $PLAT

@@ -14,8 +14,9 @@ function pre_build {
     build_openblas
 
     # setup architecture-specific build environment
+    echo pre_build got REPO_DIR=$REPO_DIR
     [[ -d ${REPO_DIR} ]] || mkdir -p ${REPO_DIR}
-    cp Makefile.${PLAT}.inc ${REPO_DIR}/Makefile.inc
+    cp Makefile.${QUIP_ARCH}.inc ${REPO_DIR}/Makefile.inc
 
     (cd ${REPO_DIR}/../.. && make quippy)
 

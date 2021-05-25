@@ -1,6 +1,5 @@
 env:
     global:
-        - REPO_DIR=QUIP
         # pip dependencies to _build_ your project
         - BUILD_DEPENDS="oldest-supported-numpy"
         # pip dependencies to _test_ your project.  Include any dependencies
@@ -106,7 +105,8 @@ before_install:
     - before_install
 
 install:
-    - build_wheel $REPO_DIR/build/${QUIP_ARCH} $PLAT
+  - REPO_DIR=QUIP/build/${QUIP_ARCH}
+  - build_wheel $REPO_DIR $PLAT
 
 script:
     - install_run $PLAT
