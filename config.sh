@@ -22,6 +22,7 @@ function pre_build {
     [[ -d ${REPO_DIR} ]] || mkdir -p ${REPO_DIR}
     cp Makefile.${QUIP_ARCH}.inc ${REPO_DIR}/Makefile.inc
 
+    export NPY_DISTUTILS_APPEND_FLAGS=1
     (cd ${REPO_DIR}/../.. && make quippy)
 
     # get ready to run `pip wheel` in build directory
