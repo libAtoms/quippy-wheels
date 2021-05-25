@@ -15,7 +15,7 @@ function pre_build {
 
     # setup architecture-specific build environment
     [[ -d ${REPO_DIR} ]] || mkdir -p ${REPO_DIR}
-    cp Makefile.inc ${REPO_DIR}
+    cp Makefile.${PLAT}.inc ${REPO_DIR}/Makefile.inc
 
     (cd ${REPO_DIR}/../.. && make quippy)
 
