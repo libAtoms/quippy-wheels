@@ -82,6 +82,26 @@ matrix:
         - MB_ML_VER=2010
         - MB_PYTHON_VERSION=3.9
         - QUIP_ARCH=linux_x86_64_gfortran
+    - os: linux
+      env:
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.6
+        - QUIP_ARCH=linux_x86_64_gfortran
+    - os: linux
+      env:
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.7
+        - QUIP_ARCH=linux_x86_64_gfortran
+    - os: linux
+      env:
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.8
+        - QUIP_ARCH=linux_x86_64_gfortran
+    - os: linux
+      env:
+        - MB_ML_VER=2014
+        - MB_PYTHON_VERSION=3.9
+        - QUIP_ARCH=linux_x86_64_gfortran
 
 before_install:
     - source multibuild/common_utils.sh
@@ -99,3 +119,13 @@ after_success:
     # Here you should put the code to upload your wheels
     # See the Uploads section for more details.
 
+deploy:
+- provider: releases
+  api_key:
+    secure: BwKCEsOA/12MulsPa8unDrjEa/AndgSo8n7eQGOotkbn9YmFu2w0rLw1cjKDK5weoBOgb0uccnjowCXKt303HWiO2/mXnEH3S3W/HgbpT5uNH/V5h3zOpj/HBbRspS8FFFXhBoZuE66UcZqg3C/r5GBQrrgHfxxRyu46B74q5J3oskh8cs/yaCEU+BzXg2fv2QjOmtQA8XFfA7LlDXha7GqTzvTNrslYYLInYC+tpJ1ZaAwRQcHVQHmMgu2TniITPJhnrS+1/DbyP12VSD8rA6S9PhRynKztSS9mcnW9eYggJvgbkj8jw6cT1pm+5Nom5K6N8Z2078uWQu+GT6Di8+ajrFpD2q0q3U/5Xt/VZcvr2fxZRY9BXw08poYeRMKEBuRvhMRfTCvOD/fzxE1fiB9lW9Qva4NWq9H9p0spWLjaEnbM55f2tFQbBdaxwMyzd3Po9v1/2WaLrduSrhWh2Ie5IwsdDSiAT+f+M7qP5ob97k4MeFJtn7XGLa9a5rtxoiFiEbtC0AIrzoZV1wEH/ZtmvY+GAjvXQx53UaA/NBRVE8zhsQIuzNFjUvPoIV3oC0NQw9BHGGHx+dN0G+cIjNduEk6elIBCY7X29imZJC+o42KSKLnVNSMzzMt3gxSnhaUzWrwRGsOcneKdSxb59V10zu4nR1us5WUII8PSNgQ=
+  file_glob: true
+  file: "${TRAVIS_BUILD_DIR}/${WHEEL_SDIR}/*.whl"
+  skip_cleanup: true
+  on:
+    repo: libAtoms/quippy-wheels
+    tags: true

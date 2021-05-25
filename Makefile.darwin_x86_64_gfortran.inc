@@ -43,4 +43,4 @@ HAVE_LMTO_TBE=0
 SIZEOF_FORTRAN_T=2
 PIP=pip3
 PYTHON=python3
-QUIPPY_LIBS=
+QUIPPY_LDFLAGS += -undefined dynamic_lookup -bundle
