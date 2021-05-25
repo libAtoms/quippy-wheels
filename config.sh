@@ -13,6 +13,10 @@ function pre_build {
     # fetch and install OpenBLAS in same way as its done for numpy
     build_openblas
 
+    # install build dependencies (i.e. oldest supported numpy) before f90wrap,
+    # otherwise we get too new a version
+    pip install $(pip_opts) ${BUILD_DEPENDS}
+
     # setup architecture-specific build environment
     echo pre_build got REPO_DIR=$REPO_DIR
     [[ -d ${REPO_DIR} ]] || mkdir -p ${REPO_DIR}
