@@ -27,5 +27,6 @@ function pre_build {
 function install_run {
     install_wheel
     cd /io/QUIP/tests
+    export QUIP_TEST_IN_PLACE=0 # prevent build directory from being added to path
     python3 run_all.py -v
 }
