@@ -64,40 +64,24 @@ matrix:
         - MB_PYTHON_OSX_VER=10.9
     - os: linux
       env:
+        - MB_ML_VER=2010
         - MB_PYTHON_VERSION=3.6
         - QUIP_ARCH=linux_x86_64_gfortran
-    # - os: linux
-    #   env:
-    #     - MB_PYTHON_VERSION=3.6
-    #     - QUIP_ARCH=linux_x86_64_gfortran
-    #     - PLAT=i686
     - os: linux
       env:
+        - MB_ML_VER=2010
         - MB_PYTHON_VERSION=3.7
         - QUIP_ARCH=linux_x86_64_gfortran
-    # - os: linux
-    #   env:
-    #     - MB_PYTHON_VERSION=3.7
-    #     - QUIP_ARCH=linux_x86_64_gfortran
-    #     - PLAT=i686
     - os: linux
       env:
+        - MB_ML_VER=2010
         - MB_PYTHON_VERSION=3.8
         - QUIP_ARCH=linux_x86_64_gfortran
-    # - os: linux
-    #   env:
-    #     - MB_PYTHON_VERSION=3.8
-    #     - QUIP_ARCH=linux_x86_64_gfortran
-    #     - PLAT=i686
     - os: linux
       env:
+        - MB_ML_VER=2010
         - MB_PYTHON_VERSION=3.9
         - QUIP_ARCH=linux_x86_64_gfortran
-    # - os: linux
-    #   env:
-    #     - MB_PYTHON_VERSION=3.9
-    #     - QUIP_ARCH=linux_x86_64_gfortran
-    #     - PLAT=i686
 
 before_install:
     - source multibuild/common_utils.sh
