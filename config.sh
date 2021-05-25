@@ -23,8 +23,9 @@ function pre_build {
     cp ${REPO_DIR}/../../quippy/setup.py ${REPO_DIR}
 }
 
-function run_tests {
-    # Runs tests on installed distribution from an empty directory
-    cd ${REPO_DIR}/../../tests
+# override install_run from multibuild, since we need to access the tests from repo root
+function install_run {
+    install_wheel
+    cd /io/QUIP/tests
     python3 run_all.py -v
 }
