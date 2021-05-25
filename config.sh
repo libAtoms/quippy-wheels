@@ -2,9 +2,9 @@
 # Test for macOS with [ -n "$IS_MACOS" ]
 
 if [ -n "$IS_MACOS" ]; then
-    export QUIP_ARCH=darwin_${PLAT}_gfortran
+    export QUIP_ARCH=darwin_x86_64_gfortran
 else
-    export QUIP_ARCH=linux_${PLAT}_gfortran
+    export QUIP_ARCH=linux_x86_64_gfortran
 fi
 
 source gfortran-install/gfortran_utils.sh
