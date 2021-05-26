@@ -56,7 +56,7 @@ with Python 3.9:
 pip install 
 ```
 
-If there are problems with the build, the `test_osx.sh` and `test_linux.sh`
+If there are problems with the build, the `test_osx.sh` and `test_docker.sh`
 scripts can be useful to debug locally -- the Linux builds use Docker
 containers, while the OS X one runs directly on the machine.
 
@@ -67,6 +67,6 @@ just `v0.9.x` without the `-rc1` suffix). This will trigger the upload of wheels
 to PyPI.
 
 ```bash
-git tag v0.9.x # subsitute x with the minor release, e.g. v0.9.1
+git tag v0.9.x # substitute x with the minor release, e.g. v0.9.1
 git push --tags
 ```
