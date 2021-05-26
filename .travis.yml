@@ -8,6 +8,9 @@ env:
         - TEST_DEPENDS="numpy"
         # Now see the Uploads section for the stuff you need to
         # upload your wheels after CI has built them.
+        - TWINE_USERNAME="__token__"
+        - TWINE_NON_INTERACTIVE=1
+        - secure: "sBZVo7BhALkPmohn9YJ0hQ5byIW6yglq9nevyLIoqPwH1C5Qxy2IJLqXHe3z1ODmBLHqGjnQ0STXgKryNpW73xHPgYEgTk8dDAKooafAvE6E5OeupMNEWSTmbdie8H8B5kaFSr5JIjPmjNDXQNqPuBUjk71iYhpqLYAQ6ESRloiLQ6W5lgnCUDaH++CJ+rJTlfea2fTH5SLQZ2aR9qTuwXcHHGHmIdY2j0lRy9A78X9sq/Z6sZNBwjbqd/5CNCIXv7k4qgwK3GzplK2dXLJGcGfLMdwH52X/8DICWQDoOFZQATNNwFCNLlh1HPkzlm+zOoL6XUgFN9UFmwOFJ9XtzBKy+IzdrT8lVacUfCMAu0ud6OzE0TEyYzBnN0PcN3h4gWvJb9uXkKyGJ7SDR2s9gbVddAUSpbxlasTYe71LUaiWz7ZV4uyOoqPA0Ei+5Pfo4K/hWWD0dhBYNPY1ayXFmU2MqaXjqIqGiA1D9TM5/lkJjeNRQe2CuD0IYlNDDhUb7PnRiBdVn3Y7pnVJw+pLW4ymnPy33bj8At3ZEuhGJWH21d+YxiDsElzEWyOp1HRK4NmRhDpEu/GA4YvF8deY9YCXjCtNpQAPt87LpbFR/RKYh5bMNGJiOcDMQjjxMEMKt1gfQ4Y/G5efDIbqrm/6rEpSLo3rLEflWmBqBwGWPzQ="
 
 # You will likely prefer "language: generic" for travis configuration,
 # rather than, say "language: python". Multibuild doesn't use
@@ -110,19 +113,32 @@ before_install:
 
 install:
   - REPO_DIR=QUIP/build/${QUIP_ARCH}
+  - |
+    if [[ -n "${TRAVIS_TAG}" ]]; then
+         echo ${TRAVIS_TAG} > TRAVIS_TAG
+    fi
   - build_wheel $REPO_DIR $PLAT
 
 script:
     - install_run $PLAT
 
 after_success:
-    # Here you should put the code to upload your wheels
-    # See the Uploads section for more details.
+- |
+  echo "after_success for tag ${TRAVIS_TAG}"
+  if [[ -n "${TRAVIS_TAG}" ]]; then
+    if echo "${TRAVIS_TAG}" | python -c 'import sys, re; r = re.compile(r"^v(\d+\.)?(\d+\.)?(\*|\d+)$"); sys.exit(r.match(sys.stdin.read()) is None)'; then
+      echo Deploying ${TRAVIS_TAG} to PyPI
+      pip install twine
+      twine upload --testpypi ${TRAVIS_BUILD_DIR}/${WHEEL_SDIR}/*.whl
+    else
+      echo Skipping deployment of tag ${TRAVIS_TAG} to PyPi
+    fi
+  fi
 
 deploy:
 - provider: releases
   api_key:
-    secure: BwKCEsOA/12MulsPa8unDrjEa/AndgSo8n7eQGOotkbn9YmFu2w0rLw1cjKDK5weoBOgb0uccnjowCXKt303HWiO2/mXnEH3S3W/HgbpT5uNH/V5h3zOpj/HBbRspS8FFFXhBoZuE66UcZqg3C/r5GBQrrgHfxxRyu46B74q5J3oskh8cs/yaCEU+BzXg2fv2QjOmtQA8XFfA7LlDXha7GqTzvTNrslYYLInYC+tpJ1ZaAwRQcHVQHmMgu2TniITPJhnrS+1/DbyP12VSD8rA6S9PhRynKztSS9mcnW9eYggJvgbkj8jw6cT1pm+5Nom5K6N8Z2078uWQu+GT6Di8+ajrFpD2q0q3U/5Xt/VZcvr2fxZRY9BXw08poYeRMKEBuRvhMRfTCvOD/fzxE1fiB9lW9Qva4NWq9H9p0spWLjaEnbM55f2tFQbBdaxwMyzd3Po9v1/2WaLrduSrhWh2Ie5IwsdDSiAT+f+M7qP5ob97k4MeFJtn7XGLa9a5rtxoiFiEbtC0AIrzoZV1wEH/ZtmvY+GAjvXQx53UaA/NBRVE8zhsQIuzNFjUvPoIV3oC0NQw9BHGGHx+dN0G+cIjNduEk6elIBCY7X29imZJC+o42KSKLnVNSMzzMt3gxSnhaUzWrwRGsOcneKdSxb59V10zu4nR1us5WUII8PSNgQ=
+    secure: "Ow0mtXslMWgoxkHOdRerpHIsO6IT4ZGSExTF2x4qX7o1fmVrWiCAY5ue0gYE0+AG6V3ANnUkx+iUHvt6ykolY9ywq/pvOd0QCYI5tNBq5Qo4dowz15ARf4EgibLOGdhs7ciV2gI9X50MDyBMIZ08Rjof2nxZkt10TaUm/zgdPVD4C1py5CtdqyeCHVStMn/Mm/awB+DQtLIefjbeF0A648bz7AWKENxTjMB51rygawEiLogiPSIAaeviFUsyvH9LLU85B8zZdcj7t+FdepofhOuBy2AeDBDlNZE5tiQKmi/JDxc/Xmzkn+lAhT+12YJKE3D8yATJhjjoh/osiJNVUH6r2QxGu9+sw3qLCSDFJcbC5KwdCFgbH8z8nWz8N4vIvxlvCkkv9cwE74eXabdlETEciTKvxiItRuos6TGAxpPCxHut0qngw0p85RVQpsiET02q0qczY2xxcnN0MFzFXUn0xe1Cwt98XzyerN3zqstEuKp5BEE0mvHMvVkPqtROMrVs8RFHSmVZ715Jhhm6Ny7We7kBM1I6XhM7uLog3sv4oDx4UhGl56ouW10XnTqPQF1OVrCKlf3eGpFNvkXYp66xrMaVLWI5rTHWUMbZBMTqEzXjrlth0upRNF9YYugGIo32nMOwF4AFAFG6qhvQRkpnPtljn92R9U+VAsa89Jw="
   file_glob: true
   file: "${TRAVIS_BUILD_DIR}/${WHEEL_SDIR}/*.whl"
   skip_cleanup: true
