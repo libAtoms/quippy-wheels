@@ -129,7 +129,7 @@ after_success:
     if echo "${TRAVIS_TAG}" | python -c 'import sys, re; r = re.compile(r"^v(\d+\.)?(\d+\.)?(\*|\d+)$"); sys.exit(r.match(sys.stdin.read()) is None)'; then
       echo Deploying ${TRAVIS_TAG} to PyPI
       pip install twine
-      twine upload --testpypi ${TRAVIS_BUILD_DIR}/${WHEEL_SDIR}/*.whl
+      twine upload --repository testpypi ${TRAVIS_BUILD_DIR}/${WHEEL_SDIR}/*.whl
     else
       echo Skipping deployment of tag ${TRAVIS_TAG} to PyPi
     fi
