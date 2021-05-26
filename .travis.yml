@@ -10,7 +10,7 @@ env:
         # upload your wheels after CI has built them.
         - TWINE_USERNAME="__token__"
         - TWINE_NON_INTERACTIVE=1
-        - secure: "sBZVo7BhALkPmohn9YJ0hQ5byIW6yglq9nevyLIoqPwH1C5Qxy2IJLqXHe3z1ODmBLHqGjnQ0STXgKryNpW73xHPgYEgTk8dDAKooafAvE6E5OeupMNEWSTmbdie8H8B5kaFSr5JIjPmjNDXQNqPuBUjk71iYhpqLYAQ6ESRloiLQ6W5lgnCUDaH++CJ+rJTlfea2fTH5SLQZ2aR9qTuwXcHHGHmIdY2j0lRy9A78X9sq/Z6sZNBwjbqd/5CNCIXv7k4qgwK3GzplK2dXLJGcGfLMdwH52X/8DICWQDoOFZQATNNwFCNLlh1HPkzlm+zOoL6XUgFN9UFmwOFJ9XtzBKy+IzdrT8lVacUfCMAu0ud6OzE0TEyYzBnN0PcN3h4gWvJb9uXkKyGJ7SDR2s9gbVddAUSpbxlasTYe71LUaiWz7ZV4uyOoqPA0Ei+5Pfo4K/hWWD0dhBYNPY1ayXFmU2MqaXjqIqGiA1D9TM5/lkJjeNRQe2CuD0IYlNDDhUb7PnRiBdVn3Y7pnVJw+pLW4ymnPy33bj8At3ZEuhGJWH21d+YxiDsElzEWyOp1HRK4NmRhDpEu/GA4YvF8deY9YCXjCtNpQAPt87LpbFR/RKYh5bMNGJiOcDMQjjxMEMKt1gfQ4Y/G5efDIbqrm/6rEpSLo3rLEflWmBqBwGWPzQ="
+        - secure: "RqRdkL96EEyA8QG4Ghoxa9UlCJj8SW9gwZxHTX+/fquekIfU5zPd6bjb/+JIylePR8fR5YgcBSowvpw4HUNWUQ4mRx9j+GA9rdaKejH9ppFAB2glHHI6ygZWZpxhbAx9RGMF0gDIrAZ4PTsfLFmC6SyqLBaQqtFN1at9eSivaPFICkDoE+BB6zWk+32J4zM5912EZv64SS3Kb5Ao/aSwLcrxgo/xUwqrp1vKFxOf2zU24dJ1yZ3hcLGKHy6+ncG+bR9cMeUZIq3/Dnechjj/1jiYAKcmVjgy/XFZuy16ESu4Lp24mB6U4/58BsbRIJXL9iF0NfOX98r+5+gWzY74YXrFssRHvEcedEWLJ6/fGfEnv5ulhMdjTnnKiBhvwrXsaobcLWnl++C1YcAJ7GRR9HoHvnojeKQsHUCzaSjSVCG2EnpHsQse8lkJL5Wd5M+/vRQ6pWJfRydS+lfCXib2/YOeiRUy+WI34/qDUpYMp3iQUJYPb/rtjdy/W1Ujk7w6FmatPnA2ElM/g0eQWG1wveFj0hS7Q/J3IxI0zJCdaZiMYpPBmWFXAEm4a+X8fUlIQzCStJWdYt6+NmNBngeCCzaj7uiI7w+/jbIkVV3ltwfFvGkQYPuN7oHBB0IaOb3+GQTx1UhZKLx3K1pzHoUOa/VmcZA9g3kNvmnsVLhzKqc="
 
 # You will likely prefer "language: generic" for travis configuration,
 # rather than, say "language: python". Multibuild doesn't use
