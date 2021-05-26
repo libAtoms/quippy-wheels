@@ -31,6 +31,7 @@ function pre_build {
     fi
 
     # get ready to run `pip wheel` in build directory
+    cp ${REPO_DIR}/../../README.md ${REPO_DIR}
     cp ${REPO_DIR}/../../quippy/setup.py ${REPO_DIR}
 }
 
