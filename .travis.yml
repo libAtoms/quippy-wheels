@@ -38,7 +38,7 @@ services: docker
 dist: xenial
 
 # osx image that enables building Apple silicon libraries
-osx_image: xcode12.3
+osx_image: xcode12.5
 
 matrix:
   include:
