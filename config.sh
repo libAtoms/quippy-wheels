@@ -33,6 +33,10 @@ function pre_build {
     # get ready to run `pip wheel` in build directory
     cp ${REPO_DIR}/../../README.md ${REPO_DIR}
     cp ${REPO_DIR}/../../quippy/setup.py ${REPO_DIR}
+
+    # include `quip` and `gap_fit` command line tools
+    cp ${REPO_DIR}/quip ${REPO_DIR}/quippy
+    cp ${REPO_DIR}/gap_fit ${REPO_DIR}/quippy/
 }
 
 # override install_run from multibuild, since we need to access the tests from repo root
