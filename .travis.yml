@@ -65,6 +65,11 @@ matrix:
         - MB_PYTHON_VERSION=3.9
         - QUIP_ARCH=darwin_x86_64_gfortran
         - MB_PYTHON_OSX_VER=10.9
+    - os: osx
+      env:
+        - MB_PYTHON_VERSION=3.9
+        - QUIP_ARCH=darwin_x86_64_gfortran
+        - PLAT="universal2"
     - os: linux
       env:
         - MB_ML_VER=2010
