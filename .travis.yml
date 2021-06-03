@@ -43,73 +43,73 @@ osx_image: xcode12.5
 matrix:
   include:
 
-    - os: osx
-      language: generic
-      env:
-        - MB_PYTHON_VERSION=3.6
-        - QUIP_ARCH=darwin_x86_64_gfortran_openmp
-    - os: osx
-      language: generic
-      env:
-        - MB_PYTHON_VERSION=3.7
-        - QUIP_ARCH=darwin_x86_64_gfortran_openmp
-    - os: osx
-      language: generic
-      env:
-        - MB_PYTHON_VERSION=3.8
-        - QUIP_ARCH=darwin_x86_64_gfortran_openmp
-        - MB_PYTHON_OSX_VER=10.9
-    - os: osx
-      language: generic
-      env:
-        - MB_PYTHON_VERSION=3.9
-        - QUIP_ARCH=darwin_x86_64_gfortran_openmp
-        - MB_PYTHON_OSX_VER=10.9
+    # - os: osx
+    #   language: generic
+    #   env:
+    #     - MB_PYTHON_VERSION=3.6
+    #     - QUIP_ARCH=darwin_x86_64_gfortran_openmp
+    # - os: osx
+    #   language: generic
+    #   env:
+    #     - MB_PYTHON_VERSION=3.7
+    #     - QUIP_ARCH=darwin_x86_64_gfortran_openmp
+    # - os: osx
+    #   language: generic
+    #   env:
+    #     - MB_PYTHON_VERSION=3.8
+    #     - QUIP_ARCH=darwin_x86_64_gfortran_openmp
+    #     - MB_PYTHON_OSX_VER=10.9
+    # - os: osx
+    #   language: generic
+    #   env:
+    #     - MB_PYTHON_VERSION=3.9
+    #     - QUIP_ARCH=darwin_x86_64_gfortran_openmp
+    #     - MB_PYTHON_OSX_VER=10.9
     - os: osx
       env:
         - MB_PYTHON_VERSION=3.9
         - QUIP_ARCH=darwin_x86_64_gfortran_openmp
         - PLAT="universal2"
-    - os: linux
-      env:
-        - MB_ML_VER=2010
-        - MB_PYTHON_VERSION=3.6
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
-    - os: linux
-      env:
-        - MB_ML_VER=2010
-        - MB_PYTHON_VERSION=3.7
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
-    - os: linux
-      env:
-        - MB_ML_VER=2010
-        - MB_PYTHON_VERSION=3.8
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
-    - os: linux
-      env:
-        - MB_ML_VER=2010
-        - MB_PYTHON_VERSION=3.9
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
-    - os: linux
-      env:
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.6
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
-    - os: linux
-      env:
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.7
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
-    - os: linux
-      env:
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.8
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
-    - os: linux
-      env:
-        - MB_ML_VER=2014
-        - MB_PYTHON_VERSION=3.9
-        - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2010
+    #     - MB_PYTHON_VERSION=3.6
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2010
+    #     - MB_PYTHON_VERSION=3.7
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2010
+    #     - MB_PYTHON_VERSION=3.8
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2010
+    #     - MB_PYTHON_VERSION=3.9
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2014
+    #     - MB_PYTHON_VERSION=3.6
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2014
+    #     - MB_PYTHON_VERSION=3.7
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2014
+    #     - MB_PYTHON_VERSION=3.8
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
+    # - os: linux
+    #   env:
+    #     - MB_ML_VER=2014
+    #     - MB_PYTHON_VERSION=3.9
+    #     - QUIP_ARCH=linux_x86_64_gfortran_openmp
 
 before_install:
     - source multibuild/common_utils.sh
