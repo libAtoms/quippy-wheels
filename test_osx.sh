@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export PLAT=x86_64
-export MB_PYTHON_VERSION=3.6
+export PLAT=universal2
+export MB_PYTHON_VERSION=3.9
 
-export QUIP_ARCH=darwin_x86_64_gfortran
+export QUIP_ARCH=darwin_x86_64_gfortran_openmp
 export REPO_DIR=QUIP/build/${QUIP_ARCH}
 
 export BUILD_DEPENDS=oldest-supported-numpy
