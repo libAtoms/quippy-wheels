@@ -28,10 +28,9 @@ jobs:
 #             python: 3.9
 #             plat: arm64
         exclude:
+          # just keep one macos variant, doesn't matter which
           - os: macos-latest
             manylinux: 2010
-          - os: macos-latest
-            manylinux: 2014
 #       fail-fast: false            
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
