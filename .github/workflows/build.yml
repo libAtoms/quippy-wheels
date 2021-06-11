@@ -23,33 +23,24 @@ jobs:
         python: [3.6, 3.7, 3.8, 3.9]
         manylinux: [1, 2010, 2014]
         plat: [x86_64]
-        include:
-          - os: macos-latest
-            python: 3.9
-            plat: arm64
+#         include:
+#           - os: macos-latest
+#             python: 3.9
+#             plat: arm64
         exclude:
           - os: macos-latest
             manylinux: 2010
           - os: macos-latest
             manylinux: 2014
-      fail-fast: false            
+#       fail-fast: false            
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
         with:
           submodules: 'recursive'
-          
       - uses: actions/setup-python@v2
         with:
           python-version: '3.x'
-
-      - name: Check tag
-        id: check-tag
-        run: |
-          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo ::set-output name=match::true
-          fi
-
       - name: Build and test
         env:
           MB_PYTHON_VERSION: ${{ matrix.python }}
@@ -75,7 +66,7 @@ jobs:
           else
               export QUIP_ARCH=linux_x86_64_gfortran_openmp
           fi
-          export REPO_DIR=QUIP/build.${QUIP_ARCH}
+          export REPO_DIR=QUIP/build/${QUIP_ARCH}
           if [[ ${{ github.event.ref }} =~ ^refs/tags/ ]]; then
                echo ${{ github.event.ref }} | sed -e 's|refs/tags/||' > GITHUB_TAG
           fi                    
@@ -89,6 +80,13 @@ jobs:
           files: wheelhouse/*.whl
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+
+      - name: Check tag
+        id: check-tag
+        run: |
+          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo ::set-output name=match::true
+          fi
 
       - name: Deploy to PyPI
         if: steps.check-tag.outputs.match == 'true'
