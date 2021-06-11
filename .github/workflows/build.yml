@@ -21,7 +21,7 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest]
         python: [3.6, 3.7, 3.8, 3.9]
-        manylinux: [1, 2010, 2014]
+        manylinux: [2010, 2014]
         plat: [x86_64]
 #         include:
 #           - os: macos-latest
