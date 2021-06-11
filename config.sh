@@ -16,6 +16,10 @@ function pip_opts {
 }
 
 function pre_build {
+    # use a local temporary directory to prevent runners from colliding
+    mkdir tmp
+    export TMPDIR=$PWD/tmp
+    
     install_gfortran
     
     # fetch and install OpenBLAS in same way as its done for numpy
