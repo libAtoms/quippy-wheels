@@ -31,7 +31,7 @@ jobs:
           # just keep one macos variant, doesn't matter which
           - os: macos-latest
             manylinux: 2010
-#       fail-fast: false            
+      fail-fast: false            
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
