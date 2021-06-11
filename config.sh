@@ -12,7 +12,7 @@ source gfortran-install/gfortran_utils.sh
 # override pip options so we can build in place - needed on GHA
 function pip_opts {
     [ -n "$MANYLINUX_URL" ] && echo -ne "--find-links $MANYLINUX_URL"
-    echo "--use-feature=in-tree-build"
+    echo " --use-feature=in-tree-build"
 }
 
 function pre_build {
