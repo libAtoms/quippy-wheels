@@ -27,8 +27,8 @@ function pre_build {
     (cd ${REPO_DIR}/../.. && make quippy)
 
     # if we're building a release then use tag name as version
-    if [[ -f TRAVIS_TAG ]]; then
-        cat TRAVIS_TAG > ${REPO_DIR}/VERSION
+    if [[ -f GITHUB_TAG ]]; then
+        cat GITHUB_TAG > ${REPO_DIR}/VERSION
     fi
 
     # get ready to run `pip wheel` in build directory
