@@ -15,11 +15,7 @@ source gfortran-install/gfortran_utils.sh
 #     echo " --use-feature=in-tree-build"
 # }
 
-function pre_build {
-    # use a local temporary directory to prevent runners from colliding
-    mkdir tmp.${MB_PYTHON_VERSION}.${PLAT}
-    export TMPDIR=$PWD/tmp.${MB_PYTHON_VERSION}.${PLAT}
-    
+function pre_build {    
     install_gfortran
     
     # fetch and install OpenBLAS in same way as its done for numpy
