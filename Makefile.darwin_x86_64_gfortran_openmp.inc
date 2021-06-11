@@ -1,13 +1,13 @@
 # Place to override setting elsewhere, in particular things set in Makefile.linux_x86_64_gfortran
 # look in QUIP/arch/Makefile.linux_x86_64_gfortran for defaults set by arch
 # 
-# F77=gfortran
-# F90=gfortran
-# F95=gfortran
-# CC=gcc
-# CPLUSPLUS=g++
+F77=gfortran-11
+F90=gfortran-11
+F95=gfortran-11
+CC=gcc
+CPLUSPLUS=g++
 # FPP=gfortran -E -x f95-cpp-input
-# LINKER=gfortran
+LINKER=gfortran-11
 # LIBTOOL=
 # OPTIM=
 # COPTIM=
@@ -43,4 +43,4 @@ HAVE_LMTO_TBE=0
 SIZEOF_FORTRAN_T=2
 PIP=pip3
 PYTHON=python3
-QUIPPY_LDFLAGS += -undefined dynamic_lookup -bundle -L/usr/local/gfortran/lib/ -lgomp
+QUIPPY_LDFLAGS += -undefined dynamic_lookup -bundle -lgomp
