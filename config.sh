@@ -17,8 +17,8 @@ source gfortran-install/gfortran_utils.sh
 
 function pre_build {
     # use a local temporary directory to prevent runners from colliding
-    mkdir tmp
-    export TMPDIR=$PWD/tmp
+    mkdir tmp.${MB_PYTHON_VERSION}.${PLAT}
+    export TMPDIR=$PWD/tmp.${MB_PYTHON_VERSION}.${PLAT}
     
     install_gfortran
     
