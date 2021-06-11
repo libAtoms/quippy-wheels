@@ -8,9 +8,10 @@ else
 fi
 
 source gfortran-install/gfortran_utils.sh
-install_gfortran
 
 function pre_build {
+    install_gfortran
+    
     # fetch and install OpenBLAS in same way as its done for numpy
     build_openblas
 
