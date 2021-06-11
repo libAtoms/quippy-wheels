@@ -60,7 +60,7 @@ If there are problems with the build, the `test_osx.sh` and `test_docker.sh`
 scripts can be useful to debug locally -- the Linux builds use Docker
 containers, while the OS X one runs directly on the machine.
 
-### 3. Release wheels to PyPI
+### 3. Release wheels to PyPI
 
 Once everything works correctly, make a full release (i.e. create a tag named
 just `v0.9.x` without the `-rc1` suffix). This will trigger the upload of wheels
