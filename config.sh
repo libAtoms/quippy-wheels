@@ -10,15 +10,15 @@ fi
 source gfortran-install/gfortran_utils.sh
 
 # override pip options so we can build in place - needed on GHA
-function pip_opts {
-    [ -n "$MANYLINUX_URL" ] && echo -ne "--find-links $MANYLINUX_URL"
-    echo " --use-feature=in-tree-build"
-}
+# function pip_opts {
+#     [ -n "$MANYLINUX_URL" ] && echo -ne "--find-links $MANYLINUX_URL"
+#     echo " --use-feature=in-tree-build"
+# }
 
 function pre_build {
     # use a local temporary directory to prevent runners from colliding
-    mkdir tmp
-    export TMPDIR=$PWD/tmp
+    mkdir tmp.${MB_PYTHON_VERSION}.${PLAT}
+    export TMPDIR=$PWD/tmp.${MB_PYTHON_VERSION}.${PLAT}
     
     install_gfortran
     

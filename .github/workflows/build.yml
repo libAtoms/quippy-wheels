@@ -15,6 +15,7 @@ on:
 
 jobs:
   build:
+    name: ${{ matrix.python }} ${{ matrix.os }} ${{ matrix.manylinux }}  ${{ matrix.plat }}
     runs-on: ${{ matrix.os }}
     
     strategy:
@@ -23,6 +24,7 @@ jobs:
         python: [3.6, 3.7, 3.8, 3.9]
         manylinux: [2010, 2014]
         plat: [x86_64]
+        macos-target: [ "10.10" ]
 #         include:
 #           - os: macos-latest
 #             python: 3.9
@@ -45,6 +47,7 @@ jobs:
           MB_PYTHON_VERSION: ${{ matrix.python }}
           MB_ML_VER: ${{ matrix.manylinux }}
           PLAT: ${{ matrix.plat }}
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}      
           BUILD_DEPENDS: oldest-supported-numpy
           TEST_DEPENDS: numpy
         run: |
@@ -71,6 +74,11 @@ jobs:
           fi                    
           build_wheel $REPO_DIR $PLAT
           install_run $PLAT
+          
+      # Uncomment to get SSH access for testing
+      - name: Setup tmate session
+        if: failure()
+        uses: mxschmitt/action-tmate@v3          
           
       - name: Release wheels
         uses: softprops/action-gh-release@v1
