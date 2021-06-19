@@ -68,6 +68,7 @@ jobs:
 	      export QUIP_ARCH=darwin_arm64_gfortran_openmp
 	    else
 	      export QUIP_ARCH=darwin_x86_64_gfortran_openmp
+	    fi
 	  fi
 	  export REPO_DIR=QUIP/build/${QUIP_ARCH}
           if [[ ${{ github.event.ref }} =~ ^refs/tags/ ]]; then
