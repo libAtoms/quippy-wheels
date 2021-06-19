@@ -25,10 +25,10 @@ jobs:
         manylinux: [2010, 2014]
         plat: [x86_64]
         macos-target: [ "10.10" ]
-#         include:
-#           - os: macos-latest
-#             python: 3.9
-#             plat: arm64
+        include:
+          - os: macos-latest
+            python: 3.9
+            plat: arm64
         exclude:
           # just keep one macos variant, doesn't matter which
           - os: macos-latest
