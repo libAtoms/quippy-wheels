@@ -15,6 +15,7 @@ LINKER=/opt/gfortran-darwin-arm64/bin/arm64-apple-darwin20.0.0-gfortran
 # DEBUG=
 # CDEBUG=
 CFLAGS += -Wno-return-type -Wno-implicit-int
+F95FLAGS += -arch arm64
 MATH_LINKOPTS=-L/usr/local/opt/openblas/lib -lopenblas
 EXTRA_LINKOPTS=
 HAVE_CP2K=0
