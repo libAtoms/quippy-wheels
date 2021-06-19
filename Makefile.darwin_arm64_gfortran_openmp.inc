@@ -8,6 +8,7 @@ CC=gcc
 CPLUSPLUS=g++
 # FPP=gfortran -E -x f95-cpp-input
 LINKER=/opt/gfortran-darwin-arm64/bin/arm64-apple-darwin20.0.0-gfortran
+LINKOPTS += -L/opt/gfortran-darwin-arm64/lib/gcc/arm64-apple-darwin20.0.0/10.2.1 -L/opt/gfortran-darwin-arm64/lib
 # LIBTOOL=
 # OPTIM=
 # COPTIM=
