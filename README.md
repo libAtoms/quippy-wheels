@@ -2,7 +2,7 @@
 
 Wheel builder for [quippy](https://github.com/libAtoms/QUIP)
 
-This used [multibuild](https://github.com/matthew-brett/multibuild) to build
+This uses [multibuild](https://github.com/matthew-brett/multibuild) to build
 wheels for Mac OS X and manylinux.  Builds are trigged on every commit, but
 wheels are only deployed to GitHub and PyPI on tags: GitHub for all
 tags (including pre-release, e.g. `v0.9.x-rc1`) and PyPI just for full
@@ -49,11 +49,11 @@ git push --tags
 ```
 
 If all goes well, the `.whl` files will show up as assets within a new GitHub
-release. The installation process can now be tested locally, e.g. on Mac OS X
-with Python 3.9:
+release. The installation process can now be tested locally, e.g. for 
+version 0.9.5-rc3 on Mac OS X with Python 3.9:
 
 ```bash
-pip install 
+pip install https://github.com/libAtoms/quippy-wheels/releases/download/v0.9.5-rc3/quippy_ase-0.9.5rc3-cp39-cp39-macosx_10_10_x86_64.whl
 ```
 
 If there are problems with the build, the `test_osx.sh` and `test_docker.sh`
