@@ -2,7 +2,11 @@
 # Test for macOS with [ -n "$IS_MACOS" ]
 
 if [ -n "$IS_MACOS" ]; then
-    export QUIP_ARCH=darwin_x86_64_gfortran_openmp
+    if [ "$PLAT" == "arm64" ]; then
+	export QUIP_ARCH=darwin_arm64_gfortran_openmp
+    else
+	export QUIP_ARCH=darwin_x86_64_gfortran_openmp
+    fi
 else
     export QUIP_ARCH=linux_x86_64_gfortran_openmp
 fi

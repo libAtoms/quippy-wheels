@@ -25,10 +25,10 @@ jobs:
         manylinux: [2010, 2014]
         plat: [x86_64]
         macos-target: [ "10.10" ]
-#         include:
-#           - os: macos-latest
-#             python: 3.9
-#             plat: arm64
+        include:
+          - os: macos-latest
+            python: 3.9
+            plat: arm64
         exclude:
           # just keep one macos variant, doesn't matter which
           - os: macos-latest
@@ -64,9 +64,13 @@ jobs:
           before_install
 
           if [ -n "$IS_MACOS" ]; then
+            if [ "$PLAT" == "arm64" ]; then
+              export QUIP_ARCH=darwin_arm64_gfortran_openmp
+            else
               export QUIP_ARCH=darwin_x86_64_gfortran_openmp
+            fi
           else
-              export QUIP_ARCH=linux_x86_64_gfortran_openmp
+            export QUIP_ARCH=linux_x86_64_gfortran_openmp
           fi
           export REPO_DIR=QUIP/build/${QUIP_ARCH}
           if [[ ${{ github.event.ref }} =~ ^refs/tags/ ]]; then
