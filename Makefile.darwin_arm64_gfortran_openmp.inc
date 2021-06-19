@@ -1,14 +1,14 @@
 # Place to override setting elsewhere, in particular things set in Makefile.linux_x86_64_gfortran
 # look in QUIP/arch/Makefile.linux_x86_64_gfortran for defaults set by arch
 # 
-F77=/opt/gfortran-darwin-arm64/bin/arm64-apple-darwin20.0.0-gfortran
-F90=/opt/gfortran-darwin-arm64/bin/arm64-apple-darwin20.0.0-gfortran
-F95=/opt/gfortran-darwin-arm64/bin/arm64-apple-darwin20.0.0-gfortran
+F77=${FC_ARM64}
+F90=${FC_ARM64}
+F95=${FC_ARM64}
 CC=gcc
 CPLUSPLUS=g++
 # FPP=gfortran -E -x f95-cpp-input
-LINKER=/opt/gfortran-darwin-arm64/bin/arm64-apple-darwin20.0.0-gfortran
-LINKOPTS += -L/opt/gfortran-darwin-arm64/lib/gcc/arm64-apple-darwin20.0.0/10.2.1 -L/opt/gfortran-darwin-arm64/lib
+LINKER=${FC_ARM64}
+LINKOPTS += ${FC_ARM64_LDFLAGS}
 # LIBTOOL=
 # OPTIM=
 # COPTIM=
