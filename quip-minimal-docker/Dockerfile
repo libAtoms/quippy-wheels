@@ -6,15 +6,12 @@ LABEL maintainer="Gabor Csanyi <gc121@cam.ac.uk>"
 RUN apt-get -y update \
  && apt-get upgrade -y \
  && apt-get install -y \
-#        python-rdkit \
         # Useful tools
-        pandoc \
+        python-rdkit \
         curl \
         vim \
         emacs-nox \
         less \
-        bsdmainutils \
-        man-db \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
@@ -57,6 +54,11 @@ RUN git clone https://github.com/libAtoms/matscipy.git /opt/matscipy \
  && cd /opt/matscipy \
  && pip install --no-cache-dir .
 
+#################################################################################
+## QUIP source
+#################################################################################
+# copies the version of QUIP pinned in this repo
+COPY QUIP /opt/quip
 
 #################################################################################
 ## Entrypoint

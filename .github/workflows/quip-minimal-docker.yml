@@ -18,6 +18,10 @@ jobs:
       - name: echo
         run: echo matrix - ${{ matrix.variable1 }} ${{ matrix.variable2 }}
 
+#      - name: see what happens if we fail
+#        if: ${{ env.variable1 }} == 2
+#        run: dummy-cmd-that-does-not-exist # this should just fail the run
+
   # this is new JOB now, that is after the matrix is done
   docker:
     name: quip-minimal docker image
