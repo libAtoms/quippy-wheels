@@ -3,28 +3,67 @@ name: Build quip-minimal Docker Image
 on: [ push ]
 
 jobs:
-
-  build:
-
+  dummy-matrix:
+    # this is a dummy step, with a matrix to not depend on the other test just yet
+    name: dummy matrix - ${{ matrix.variable1 }} ${{ matrix.variable2 }}
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        variable1: [ 1, 2, 3 ]
+        variable2: [ 4, 5, 6 ]
+
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
+      - name: echo
+        run: echo matrix - ${{ matrix.variable1 }} ${{ matrix.variable2 }}
 
-    # Pull the latest version of the image
-    # in order to use unchanged layers
-    - name: pull last version of image
-      run: docker pull libatomsquip/quip-minimal:latest || true
+  # this is new JOB now, that is after the matrix is done
+  docker:
+    name: quip-minimal docker image
+    runs-on: ubuntu-latest
 
-    - name: Build the Docker image
-      run: docker build --tag libatomsquip/quip-minimal:latest --cache-from libatomsquip/quip-minimal quip-minimal-docker
+    env:
+      image-name: libatomsquip/quip-minimal
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v1
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v2
 
-    - name: Push to Docker Hub
-      run: docker push libatomsquip/quip-minimal:latest
+      # checks if we are on a git tag or not
+      - name: Check tag
+        id: check-tag
+        run: |
+          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo ::set-output name=match::true
+          else
+              echo ::set-output name=match::false
+          fi
 
+      # Pull the latest version of the image
+      # in order to use unchanged layers
+      - name: pull last version of image
+        if: steps.check-tag.outputs.match != 'true' # ie. builds from scratch on tags
+        run: docker pull ${{env.image-name}} || true
+
+      # build the image with tag=SHA
+      - name: Build the Docker image
+        run: docker build --tag ${{env.image-name}}:${GITHUB_SHA} --cache-from ${{env.image-name}} quip-minimal-docker
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # this is there on all commits, with the commit SHA
+      - name: Push to Docker Hub
+        run: docker push libatomsquip/quip-minimal:${GITHUB_SHA}
+
+      # tag with the tag on tags :)
+      - name: Push with tag on git tags
+        if: steps.check-tag.outputs.match == 'true'
+        env:
+          tag-name: ${ GITHUB_REF#refs/tags/ }
+        run: |
+          docker tag ${{env.image-name}}:${GITHUB_SHA} ${{env.image-name}}:${{env.tag-name}}
+          docker push libatomsquip/quip-minimal:${{env.tag-name}}
