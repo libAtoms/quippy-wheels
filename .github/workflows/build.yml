@@ -1,15 +1,15 @@
 name: build
 
-# Controls when the action will run. 
+# Controls when the action will run.
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
     tags:
-      - v*    
+      - v*
   pull_request:
     branches: [ main ]
-  
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -17,13 +17,13 @@ jobs:
   build:
     name: ${{ matrix.python }} ${{ matrix.os }} ${{ matrix.manylinux }}  ${{ matrix.plat }}
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        python: [3.6, 3.7, 3.8, 3.9]
-        manylinux: [2010, 2014]
-        plat: [x86_64]
+        os: [ ubuntu-latest, macos-latest ]
+        python: [ 3.6, 3.7, 3.8, 3.9 ]
+        manylinux: [ 2010, 2014 ]
+        plat: [ x86_64 ]
         macos-target: [ "10.10" ]
         include:
           - os: macos-latest
@@ -33,7 +33,7 @@ jobs:
           # just keep one macos variant, doesn't matter which
           - os: macos-latest
             manylinux: 2010
-      fail-fast: false            
+      fail-fast: false
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -47,7 +47,7 @@ jobs:
           MB_PYTHON_VERSION: ${{ matrix.python }}
           MB_ML_VER: ${{ matrix.manylinux }}
           PLAT: ${{ matrix.plat }}
-          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}      
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}
           BUILD_DEPENDS: oldest-supported-numpy
           TEST_DEPENDS: numpy
         run: |
@@ -56,11 +56,11 @@ jobs:
 
           source multibuild/common_utils.sh
           source multibuild/travis_steps.sh
-          
+
           # restore GitHub Actions system Python to front of path
           export PATH=${PYTHON_DIR}:$PATH
           pip install virtualenv
-          
+
           before_install
 
           if [ -n "$IS_MACOS" ]; then
@@ -75,22 +75,22 @@ jobs:
           export REPO_DIR=QUIP/build/${QUIP_ARCH}
           if [[ ${{ github.event.ref }} =~ ^refs/tags/ ]]; then
                echo ${{ github.event.ref }} | sed -e 's|refs/tags/||' > GITHUB_TAG
-          fi                    
+          fi
           build_wheel $REPO_DIR $PLAT
           install_run $PLAT
-          
+
       # Uncomment to get SSH access for testing
       - name: Setup tmate session
         if: failure()
-        uses: mxschmitt/action-tmate@v3          
-          
+        uses: mxschmitt/action-tmate@v3
+
       - name: Release wheels
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: wheelhouse/*.whl
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check tag
         id: check-tag
