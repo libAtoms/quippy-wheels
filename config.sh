@@ -28,7 +28,7 @@ function install_delocate {
 function pre_build {    
     install_gfortran
     
-    if [[ -n "$IS_MACOS" && $PLAT == "arm64" ]]; then
+    if [ -n "$IS_MACOS" ] && [ $PLAT == "arm64" ]; then
       # fetch and install OpenBLAS in same way as its done for numpy
       # setuptools v49.2.0 is broken
       $PYTHON_EXE -mpip install --upgrade "setuptools<49.2.0"
@@ -75,6 +75,10 @@ function pre_build {
 
 # override install_run from multibuild, since we need to access the tests from repo root
 function install_run {
+    if [ "$PLAT" == "arm64" ]; then
+    	echo Skipping test for cross-compiled wheel $PLAT
+	return
+    fi 
     install_wheel
     cd QUIP/tests
     QUIP_TEST_IN_PLACE=0 HAVE_GAP=1 python3 run_all.py -v
