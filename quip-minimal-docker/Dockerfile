@@ -102,7 +102,7 @@ RUN apt-get -y update \
 # Source files
 ################################################################################
 # copies the version of QUIP pinned in this repo
-COPY QUIP /opt/quip
+#COPY QUIP /opt/quip
 
 # matscipy source
 RUN git clone https://github.com/libAtoms/matscipy.git /opt/matscipy
