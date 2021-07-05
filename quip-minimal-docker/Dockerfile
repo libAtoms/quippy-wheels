@@ -1,73 +1,120 @@
-# Base Python (debian) image
-FROM python
+################################################################################
+# build image
+################################################################################
+# this uses conda to build the python environment and then saves it
+# for use in the runtime image
+# -> compilers and conda not needed in the runtime image
+# -> size of image is smaller
+FROM continuumio/miniconda3 AS build
 LABEL maintainer="Gabor Csanyi <gc121@cam.ac.uk>"
 
 # simple utilities
 RUN apt-get -y update \
  && apt-get upgrade -y \
  && apt-get install -y \
+        build-essential \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+
+RUN conda create --name to-pack \
+        python \
+        jupyter \
+        numpy \
+        scipy \
+        scikit-learn\
+        matplotlib \
+        pyamg \
+#        scikit-build\
+#        sphinx \
+#        sphinx-rtd-theme \
+#        torch\
+#        torchani\
+        numpydoc \
+        RISE \
+        pandas \
+        click
+
+RUN conda install -c conda-forge -n to-pack \
+#        imolecule \
+        nglview \
+        nbsphinx \
+        spglib \
+        phonopy \
+        xtb-python \
+        ase
+
+RUN /opt/conda/envs/to-pack/bin/jupyter nbextension enable --py --sys-prefix widgetsnbextension \
+ && /opt/conda/envs/to-pack/bin/jupyter nbextension enable --py --sys-prefix nglview \
+ && /opt/conda/envs/to-pack/bin/jupyter-nbextension install rise --py --sys-prefix \
+ && /opt/conda/envs/to-pack/bin/jupyter-nbextension enable rise --py --sys-prefix
+
+# PIP only packages
+#   - conda has a hard time installing rdkit for some reason
+RUN /opt/conda/envs/to-pack/bin/pip install quippy-ase imolecule rdkit-pypi
+
+# No need to keep source here
+RUN git clone https://github.com/libAtoms/matscipy.git /opt/matscipy \
+ && cd /opt/matscipy \
+ && /opt/conda/envs/to-pack/bin/pip install --no-cache-dir . \
+ && rm -rvf /opt/matscipy
+
+# pack up this conda env for the main image
+RUN conda install -c conda-forge conda-pack
+
+# Use conda-pack to create a standalone enviornment
+# in /venv:
+RUN conda-pack -n to-pack -o /tmp/env.tar && \
+  mkdir /venv && cd /venv && tar xf /tmp/env.tar && \
+  rm /tmp/env.tar
+
+# We've put venv in same path it'll be in final image,
+# so now fix up paths:
+RUN /venv/bin/conda-unpack
+
+################################################################################
+# Runtime image
+################################################################################
+# The runtime-stage image; we can use Debian as the
+# base image since the Conda env also includes Python
+# for us.
+FROM debian:buster AS runtime
+
+# Copy /venv from the previous stage:
+COPY --from=build /venv /venv
+
+################################################################################
+# simple utilities
+################################################################################
+RUN apt-get -y update \
+ && apt-get upgrade -y \
+ && apt-get install -y \
         # Useful tools
-        python-rdkit \
         curl \
+        wget \
+        git \
         vim \
         emacs-nox \
         less \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-
-# Put any Python libraries here
-RUN pip install --upgrade pip \
- && pip install --no-cache-dir \
-        jupyter \
-        numpy \
-        scipy \
-        scikit-learn\
-#        scikit-build\
-        matplotlib \
-        pyamg \
-        imolecule \
-#        sphinx \
-#        sphinx-rtd-theme \
-        nbsphinx \
-        numpydoc \
-        spglib \
-        nglview \
-        RISE \
-        pandas \
-        phonopy \
-#        torch\
-#        torchani\
-        click \
-        # quippy & gap_fit from PyPI
-        quippy-ase \
- && jupyter nbextension enable --py --sys-prefix widgetsnbextension \
- && jupyter nbextension enable --py --sys-prefix nglview \
- && jupyter-nbextension install rise --py --sys-prefix \
- && jupyter-nbextension enable rise --py --sys-prefix
-
-# get latest version of ASE
-RUN pip install git+https://gitlab.com/ase/ase
-
-# Keep the source for examples
-RUN git clone https://github.com/libAtoms/matscipy.git /opt/matscipy \
- && cd /opt/matscipy \
- && pip install --no-cache-dir .
-
-#################################################################################
-## QUIP source
-#################################################################################
+################################################################################
+# Source files
+################################################################################
 # copies the version of QUIP pinned in this repo
 COPY QUIP /opt/quip
 
-#################################################################################
-## Entrypoint
-#################################################################################
+# matscipy source
+RUN git clone https://github.com/libAtoms/matscipy.git /opt/matscipy
+
+################################################################################
+# Entrypoint
+################################################################################
 
 WORKDIR /root/
 
 # Set bash instead of sh as defualt terminal in Jupyter
-ENV SHELL /bin/bash
+SHELL ["/bin/bash", "-c"]
 
-CMD bash -c exit && jupyter notebook --ip=$(hostname -i) --port=8899 --allow-root
+CMD source /venv/bin/activate && bash -c exit && jupyter notebook --ip=$(hostname -i) --port=8899 --allow-root
 EXPOSE 8899
