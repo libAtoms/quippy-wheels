@@ -28,20 +28,24 @@ function install_delocate {
 function pre_build {    
     install_gfortran
     
-    # fetch and install OpenBLAS in same way as its done for numpy
-    # setuptools v49.2.0 is broken
-    $PYTHON_EXE -mpip install --upgrade "setuptools<49.2.0"
-    # Use the same incantation as numpy/tools/travis-before-install.sh to
-    # download and un-tar the openblas libraries. The python call returns
-    # the un-tar root directory, then the files are copied into /usr/local.
-    # Could utilize a site.cfg instead to prevent the copy.
-    $PYTHON_EXE -mpip install urllib3
-    $PYTHON_EXE -c"import platform; print('platform.uname().machine', platform.uname().machine)"
-    curl https://raw.githubusercontent.com/numpy/numpy/main/tools/openblas_support.py -o openblas_support.py
-    basedir=$($PYTHON_EXE openblas_support.py)
-    $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
-    $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
-    export OPENBLAS=$BUILD_PREFIX
+    if [[ -n "$IS_MACOS" && $PLAT == "arm64" ]]; then
+      # fetch and install OpenBLAS in same way as its done for numpy
+      # setuptools v49.2.0 is broken
+      $PYTHON_EXE -mpip install --upgrade "setuptools<49.2.0"
+      # Use the same incantation as numpy/tools/travis-before-install.sh to
+      # download and un-tar the openblas libraries. The python call returns
+      # the un-tar root directory, then the files are copied into /usr/local.
+      # Could utilize a site.cfg instead to prevent the copy.
+      $PYTHON_EXE -mpip install urllib3
+      $PYTHON_EXE -c"import platform; print('platform.uname().machine', platform.uname().machine)"
+      curl https://raw.githubusercontent.com/numpy/numpy/main/tools/openblas_support.py -o openblas_support.py
+      basedir=$($PYTHON_EXE openblas_support.py)
+      $use_sudo cp -r $basedir/lib/* $BUILD_PREFIX/lib
+      $use_sudo cp $basedir/include/* $BUILD_PREFIX/include
+      export OPENBLAS=$BUILD_PREFIX
+    else
+      build_openblas
+    fi
 
     # install build dependencies (i.e. oldest supported numpy) before f90wrap,
     # otherwise we get too new a version
