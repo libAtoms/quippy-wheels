@@ -23,7 +23,12 @@ function pre_build {
     install_gfortran
     
     # fetch and install OpenBLAS in same way as its done for numpy
-    build_openblas
+#     build_openblas
+
+    mkdir -p archives
+    local plat=${1:-${PLAT:-x86_64}}
+    local tar_path=$(abspath $(openblas_get $plat))
+    (cd / && tar zxf $tar_path)
 
     # install build dependencies (i.e. oldest supported numpy) before f90wrap,
     # otherwise we get too new a version
