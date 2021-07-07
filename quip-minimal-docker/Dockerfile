@@ -79,8 +79,9 @@ RUN /venv/bin/conda-unpack
 # for us.
 FROM debian:buster AS runtime
 
-# Copy /venv from the previous stage:
+# Copy /venv from the previous stage & add to path
 COPY --from=build /venv /venv
+ENV PATH "$PATH:/venv/bin"
 
 ################################################################################
 # simple utilities
