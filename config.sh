@@ -13,15 +13,13 @@ fi
 
 source gfortran-install/gfortran_utils.sh
 
-# override pip options so we can build in place - needed on GHA
-# function pip_opts {
-#     [ -n "$MANYLINUX_URL" ] && echo -ne "--find-links $MANYLINUX_URL"
-#     echo " --use-feature=in-tree-build"
-# }
-
 function install_delocate {
     check_pip
     $PIP_CMD install git+https://github.com/isuruf/delocate.git@arm64
+}
+
+function pip_opts {
+    [ -n "$MANYLINUX_URL" ] && echo "-v --find-links $MANYLINUX_URL" || echo "-v"
 }
 
 # customize setup of cross compiler to remove -Wl,-rpath options that stop delocate from working correctly
@@ -44,7 +42,7 @@ function macos_arm64_cross_build_setup {
     export CROSS_COMPILING=1
     local libgfortran="$(find /opt/gfortran-darwin-arm64/lib -name libgfortran.dylib)"
     local libdir=$(dirname $libgfortran)
-    export FC_ARM64_LDFLAGS="-L$libdir"
+    export FC_ARM64_LDFLAGS="-L$libdir -Wl,-rpath,$libdir"
     export LDFLAGS+=" -arch arm64 -L$BUILD_PREFIX/lib $FC_ARM64_LDFLAGS"
     # This would automatically let autoconf know that we are cross compiling for arm64 darwin
     export host_alias="aarch64-apple-darwin20.0.0"
