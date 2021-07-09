@@ -25,6 +25,10 @@ function pip_opts {
 # customize setup of cross compiler to remove -Wl,-rpath options that stop delocate from working correctly
 function macos_arm64_cross_build_setup {
     echo Running custom macos_arm64_cross_build_setup
+    if [ ! -f gfortran-stamp ]; do
+	install_gfortran
+	touch gfortran-stamp
+    done    
     # Setup cross build for single arch arm_64 wheels
     export PLAT="arm64"
     export BUILD_PREFIX=/opt/arm64-builds
@@ -49,8 +53,11 @@ function macos_arm64_cross_build_setup {
 }
 
 
-function pre_build {    
-    install_gfortran
+function pre_build {
+    if [ ! -f gfortran-stamp ]; do
+	install_gfortran
+	touch gfortran-stamp
+    done
     
     if [ -n "$IS_MACOS" ] && [ $PLAT == "arm64" ]; then
       # fetch and install OpenBLAS in same way as its done for numpy
