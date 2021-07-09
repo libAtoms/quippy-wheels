@@ -94,9 +94,10 @@ function pre_build {
     cp ${REPO_DIR}/../../README.md ${REPO_DIR}
     cp ${REPO_DIR}/../../quippy/setup.py ${REPO_DIR}
 
-    # include `quip` and `gap_fit` command line tools
+    # include `quip` and `gap_fit` command line tools and `libquip.a` library
     cp ${REPO_DIR}/quip ${REPO_DIR}/quippy
     cp ${REPO_DIR}/gap_fit ${REPO_DIR}/quippy/
+    cp ${REPO_DIR}/libquip.a ${REPO_DIR}/quippy/
 }
 
 # override install_run from multibuild, since we need to access the tests from repo root
