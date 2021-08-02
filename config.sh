@@ -113,5 +113,5 @@ function install_run {
     fi 
     install_wheel
     cd QUIP/tests
-    QUIP_TEST_IN_PLACE=0 HAVE_GAP=1 python3 run_all.py -v
+    QUIP_WHEEL_TEST=1 HAVE_GAP=1 python3 run_all.py -v
 }
