@@ -80,9 +80,9 @@ jobs:
           install_run $PLAT
           
       # Uncomment to get SSH access for testing
-      - name: Setup tmate session
-        if: failure()
-        uses: mxschmitt/action-tmate@v3          
+#       - name: Setup tmate session
+#         if: failure()
+#         uses: mxschmitt/action-tmate@v3          
           
       - name: Release wheels
         uses: softprops/action-gh-release@v1
