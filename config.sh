@@ -112,6 +112,7 @@ function install_run {
 	return
     fi 
     install_wheel
+    export QUIP_ROOT=$PWD/QUIP
     cd QUIP/tests
     QUIP_WHEEL_TEST=1 HAVE_GAP=1 python3 run_all.py -v
 }
