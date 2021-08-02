@@ -33,7 +33,7 @@ jobs:
           # just keep one macos variant, doesn't matter which
           - os: macos-latest
             manylinux: 2010
-      fail-fast: false            
+      fail-fast: true            
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -63,6 +63,7 @@ jobs:
           
           before_install
 
+          export QUIP_ROOT=$PWD/QUIP
           if [ -n "$IS_MACOS" ]; then
             if [ "$PLAT" == "arm64" ]; then
               export QUIP_ARCH=darwin_arm64_gfortran_openmp
