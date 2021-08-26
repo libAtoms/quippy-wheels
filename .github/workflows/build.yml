@@ -6,10 +6,10 @@ on:
   push:
     branches: [ main ]
     tags:
-      - v*    
+      - v*
   pull_request:
     branches: [ main ]
-  
+
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
@@ -17,13 +17,13 @@ jobs:
   build:
     name: ${{ matrix.python }} ${{ matrix.os }} ${{ matrix.manylinux }}  ${{ matrix.plat }}
     runs-on: ${{ matrix.os }}
-    
+
     strategy:
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        python: [3.6, 3.7, 3.8, 3.9]
-        manylinux: [2010, 2014]
-        plat: [x86_64]
+        os: [ ubuntu-latest, macos-latest ]
+        python: [ 3.6, 3.7, 3.8, 3.9 ]
+        manylinux: [ 2010, 2014 ]
+        plat: [ x86_64 ]
         macos-target: [ "10.10" ]
         include:
           - os: macos-latest
@@ -33,7 +33,7 @@ jobs:
           # just keep one macos variant, doesn't matter which
           - os: macos-latest
             manylinux: 2010
-      fail-fast: true            
+      fail-fast: true
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
@@ -47,7 +47,7 @@ jobs:
           MB_PYTHON_VERSION: ${{ matrix.python }}
           MB_ML_VER: ${{ matrix.manylinux }}
           PLAT: ${{ matrix.plat }}
-          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}      
+          MACOSX_DEPLOYMENT_TARGET: ${{ matrix.macos-target }}
           BUILD_DEPENDS: oldest-supported-numpy
           TEST_DEPENDS: numpy
         run: |
@@ -56,11 +56,11 @@ jobs:
 
           source multibuild/common_utils.sh
           source multibuild/travis_steps.sh
-          
+
           # restore GitHub Actions system Python to front of path
           export PATH=${PYTHON_DIR}:$PATH
           pip install virtualenv
-          
+
           before_install
 
           export QUIP_ROOT=$PWD/QUIP
@@ -79,19 +79,19 @@ jobs:
           fi                    
           build_wheel $REPO_DIR $PLAT
           install_run $PLAT
-          
-      # Uncomment to get SSH access for testing
-#       - name: Setup tmate session
-#         if: failure()
-#         uses: mxschmitt/action-tmate@v3          
-          
+
+          # Uncomment to get SSH access for testing
+          #       - name: Setup tmate session
+          #         if: failure()
+          #         uses: mxschmitt/action-tmate@v3
+
       - name: Release wheels
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: wheelhouse/*.whl
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Check tag
         id: check-tag
@@ -108,3 +108,53 @@ jobs:
         env:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
+
+  docker:
+    name: Build QUIP-Minimal Docker image
+    needs: build # depends on the previous matrix jobs to succeed
+    runs-on: ubuntu-latest
+
+    env:
+      image-name: libatomsquip/quip-minimal
+
+    steps:
+      - uses: actions/checkout@v2
+
+      # checks if we are on a git tag or not
+      - name: Check tag
+        id: check-tag
+        run: |
+          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              echo ::set-output name=match::true
+          else
+              echo ::set-output name=match::false
+          fi
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      # Pull the latest version of the image
+      # in order to use unchanged layers
+      - name: pull last version of image
+        if: steps.check-tag.outputs.match != 'true' # ie builds from scratch on tags
+        run: docker pull ${{env.image-name}} || true
+
+      # build the image with tag=SHA
+      - name: Build the Docker image
+        run: docker build --tag ${{env.image-name}}:${GITHUB_SHA} --cache-from ${{env.image-name}} quip-minimal-docker
+
+      # this is there on all commits, with the commit SHA
+      - name: Push to Docker Hub
+        run: docker push libatomsquip/quip-minimal:${GITHUB_SHA}
+
+      # tag with the tag on tags :)
+      - name: Push with tag on git tags
+        if: steps.check-tag.outputs.match == 'true'
+        env:
+          tag-name: ${ GITHUB_REF#refs/tags/ }
+        run: |
+          docker tag ${{env.image-name}}:${GITHUB_SHA} ${{env.image-name}}:${{env.tag-name}}
+          docker push libatomsquip/quip-minimal:${{env.tag-name}}
