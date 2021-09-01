@@ -109,12 +109,12 @@ jobs:
           TWINE_USERNAME: ${{ secrets.TWINE_USERNAME }}
           TWINE_PASSWORD: ${{ secrets.TWINE_PASSWORD }}
   docker:
-     name: Build QUIP-Minimal Docker image
-     needs: build # depends on the previous matrix jobs to succeed
-     runs-on: ubuntu-latest
+    name: Build QUIP-Minimal Docker image
+    needs: build # depends on the previous matrix jobs to succeed
+    runs-on: ubuntu-latest
 
-     steps:
-       - uses: actions/checkout@v2
+    steps:
+     - uses: actions/checkout@v2
 
-       - name: dummy task
-         run: echo "this is a dummy task"
+     - name: dummy task
+       run: echo "this is a dummy task"
