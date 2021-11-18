@@ -102,6 +102,8 @@ function pre_build {
     # include `quip` and `gap_fit` command line tools and `libquip.a` library
     cp ${REPO_DIR}/quip ${REPO_DIR}/quippy
     cp ${REPO_DIR}/gap_fit ${REPO_DIR}/quippy/
+    cp ${REPO_DIR}/md ${REPO_DIR}/quippy/
+    cp ${REPO_DIR}/vasp_driver ${REPO_DIR}/quippy/
     cp ${REPO_DIR}/libquip.a ${REPO_DIR}/quippy/
 }
 
