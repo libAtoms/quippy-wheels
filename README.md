@@ -34,7 +34,7 @@ git commit -m 'update QUIP version'
 
 To trigger a build, just push the new commit to the `quippy-wheel` GitHub repo `main`
 branch.  If it is on a different branch you will need to create a pull request
-to trigger the build action.
+from that branch to trigger the build action.
 
 ```bash
 git push
@@ -43,7 +43,9 @@ git push
 Untagged releases will build wheels but not store them anywhere, so can be used
 as a test that everything is working. Tagged releases generated wheels as GitHub
 releases in this repo. It's a good idea to try a pre-release using a suffix such
-as `-rc1` for the first attempt.
+as `-rc1` for the first attempt. If the tag is of a commit that is in
+a branch other than `main` and is not part of a PR, it may not trigger the
+storage of the built wheels.
 
 ```bash
 git tag v0.9.x-rc1 # substitute x with the minor release, e.g. v0.9.1-rc1
