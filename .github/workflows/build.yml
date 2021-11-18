@@ -99,7 +99,8 @@ jobs:
       - name: Check tag
         id: check-tag
         run: |
-          if [[ ${{ github.event.ref }} =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+          event_ref=${{ github.event.ref }}
+          if [[ $event_ref =~ ^refs/tags/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
               echo ::set-output name=match::true
           fi
 
