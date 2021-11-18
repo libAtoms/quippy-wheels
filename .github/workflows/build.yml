@@ -74,7 +74,8 @@ jobs:
             export QUIP_ARCH=linux_x86_64_gfortran_openmp
           fi
           export REPO_DIR=QUIP/build/${QUIP_ARCH}
-          if [[ ! -z ${{ github.event.ref }} && ${{ github.event.ref }} =~ ^refs/tags/ ]]; then
+          event_ref=${{ github.event.ref }}
+          if [[ ! -z $event_ref && $event_ref =~ ^refs/tags/ ]]; then
                echo ${{ github.event.ref }} | sed -e 's|refs/tags/||' > GITHUB_TAG
           else
                echo "none" > GITHUB_TAG
