@@ -34,7 +34,7 @@ git commit -m 'update QUIP version'
 
 To trigger a build, just push the new commit to the `quippy-wheel` GitHub repo `main`
 branch.  If it is on a different branch you will need to create a pull request
-to trigger the build action.
+from that branch to trigger the build action.
 
 ```bash
 git push
