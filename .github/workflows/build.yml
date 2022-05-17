@@ -21,7 +21,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest]
-        python: [3.6, 3.7, 3.8, 3.9]
+        python: [3.6, 3.7, 3.8, 3.9, 3.10]
         manylinux: [2010, 2014]
         plat: [x86_64]
         macos-target: [ "10.10" ]
@@ -84,9 +84,9 @@ jobs:
           install_run $PLAT
           
       # Uncomment to get SSH access for testing
-#       - name: Setup tmate session
-#         if: failure()
-#         uses: mxschmitt/action-tmate@v3          
+       - name: Setup tmate session
+         if: failure()
+         uses: mxschmitt/action-tmate@v3          
           
       - name: Release wheels
         uses: softprops/action-gh-release@v1
