@@ -1,5 +1,7 @@
 # quippy-wheels
 
+*NOW DEFUNCT* - wheels are build with cibuildwheel directly in the [QUIP](https://github.com/libAtoms/QUIP) repo
+
 Wheel builder for [quippy](https://github.com/libAtoms/QUIP)
 
 This uses [multibuild](https://github.com/matthew-brett/multibuild) to build
